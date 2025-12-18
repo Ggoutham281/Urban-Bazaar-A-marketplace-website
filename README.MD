@@ -1,18 +1,39 @@
-# OLX Clone
+# Urban Bazaar
 
-A simple **frontend clone of OLX** built with HTML, CSS, and JavaScript. This project simulates a basic online marketplace where users can view, filter, and search for products.
+**Urban Bazaar** is a **frontend marketplace website** built using **HTML, CSS, and JavaScript**, inspired by **OLX**.  
+It allows users to **browse, search, filter, and sell products** on a simple and responsive platform.
+
+---
 
 ## Features
 - Responsive product grid layout
-- Category-based filtering
-- Search functionality
-- Modal for login/signup (frontend only)
+- Category-based filtering (e.g., laptops, cars, electronics)
+- Search functionality by name, details, or price
+- Location-based filtering
+- Modal for adding/selling items
+- Login and signup forms (frontend only)
+- Delete products added locally
+
+---
 
 ## Future Improvements
 - Backend integration for dynamic product listing
-- User authentication and database storage
-- Add “Sell Item” functionality
-- Improved UI/UX with animations
+- Full user authentication with database
+- Image upload support for products
+- Improved UI/UX with animations and transitions
+- Product detail page with seller info
 
-## Author
-Goutham Reddy Gaddam
+---
+
+## Technologies Used
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+- LocalStorage for frontend data persistence
+
+---
+
+## How to Use
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Ggoutham281/Urban-Bazaar-A-marketplace-website.git
