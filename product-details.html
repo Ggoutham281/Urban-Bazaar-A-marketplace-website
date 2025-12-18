@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="detailPageTitle">Product Details</title>
+    <link rel="stylesheet" href="style.css"> <style>
+        /* Minimal CSS for Details Page */
+        body { background-color: #f7f8f9; }
+        .details-container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 30px;
+        }
+        .image-section { flex: 1; }
+        .info-section { flex: 1.5; }
+        .details-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .price {
+            font-size: 2.5em;
+            color: #002f34; /* OLX dark color */
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .name {
+            font-size: 1.8em;
+            color: #333;
+            margin-top: 0;
+        }
+        .meta-info p {
+            font-size: 1em;
+            margin: 5px 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">... (Optional: You can copy your existing navbar here)</div>
+
+    <div id="loading" style="text-align: center; padding: 100px; font-size: 1.2em;">Loading product details...</div>
+    <div id="productDetailContainer" class="details-container" style="display:none;">
+        <div class="image-section">
+            <img id="detailImage" src="" alt="Product Image">
+        </div>
+        <div class="info-section">
+            <p class="price" id="detailPrice"></p>
+            <h1 class="name" id="detailName"></h1>
+            <div class="meta-info">
+                <p><strong>Category:</strong> <span id="detailCategory"></span></p>
+                <p><strong>Location:</strong> <span id="detailLocation"></span></p>
+                <p><strong>Description:</strong> <span id="detailDetails"></span></p>
+                <p style="margin-top: 20px;">
+                    <button style="padding: 10px 20px; background-color: #00a49f; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Chat with Seller
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loading = document.getElementById('loading');
+            const container = document.getElementById('productDetailContainer');
+            
+            // 1. Get the product ID from the URL query string
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (!productId) {
+                loading.textContent = 'Error: No product ID provided.';
+                return;
+            }
+
+            // 2. Load all products (initial HTML + saved) from localStorage
+            // NOTE: The products from the main page's HTML *must* be saved in localStorage first!
+            const savedProducts = JSON.parse(localStorage.getItem('allProductsData')) || [];
+
+            // 3. Find the product by ID (Important: parse ID as integer for comparison)
+            const product = savedProducts.find(p => p.id === parseInt(productId));
+
+            if (product) {
+                // 4. Populate the elements with product data
+                document.getElementById('detailPageTitle').textContent = product.name;
+                document.getElementById('detailImage').src = product.image;
+                document.getElementById('detailName').textContent = product.name;
+                document.getElementById('detailCategory').textContent = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+                document.getElementById('detailLocation').textContent = product.location;
+                document.getElementById('detailDetails').textContent = product.details || 'No additional description provided.';
+                
+                const displayPrice = new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                    minimumFractionDigits: 0
+                }).format(product.price);
+                document.getElementById('detailPrice').textContent = displayPrice;
+
+                // 5. Hide loading and show the details container
+                loading.style.display = 'none';
+                container.style.display = 'flex';
+            } else {
+                loading.textContent = `Product with ID ${productId} not found.`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,284 +1,110 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OLX Clone</title>
+  <title>Urban Bazaar</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #fff;
-      color: #333;
-    }
-    .navbar{
-      display:flex;
-      justify-content: space-between;
-      padding:10px 20px;
-      align-items: center;
-      border-bottom: 1px solid #ddd;
-        background: #fff; 
-    }
-
-   
-
+    /* Styling to ensure the embedded logo fits nicely in the header */
     .navbar .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #007bff;
+      display: flex;
+      align-items: center;
+      padding: 2px 0;
     }
-
-    .navbar select, 
-    .navbar input {
-      padding: 10px;
-      border: 1px solid #ccc;
+    .navbar .logo img {
+      height: 55px; /* Scaled to fit standard navbar height */
+      width: auto;
+      object-fit: contain;
       border-radius: 4px;
     }
-
-    .navbar input {
-      width: 600px;
-    }
-    
-
-    .navbar .actions {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .navbar .sell-btn {
-      background: #fff;
-      border: 2px solid #ff9800;
-      color: #000;
+    /* Simple fallback if image fails */
+    .logo:empty::before {
+      content: "Urban Bazaar";
       font-weight: bold;
-      padding: 6px 15px;
-      border-radius: 25px;
-      cursor: pointer;
-     
+      color: #002f34;
     }
 
-    .navbar .sell-btn:hover {
-      background: #ff9800;
-      color: #fff;
+    /* Added CSS for the delete button and image sizing */
+    .product {
+        position: relative;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 8px;
+        background: #fff;
     }
-
-  
-    .categories {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 12px;
-      border-bottom: 1px solid #ddd;
-      background: #f9f9f9;
+    .product img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 4px;
     }
-
-    .categories a {
-      text-decoration: none;
-      color: #333;
-      font-size: 14px;
+    .delete-btn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 8px;
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
     }
-
-    .categories a:hover {
-      color: #007bff;
+    .delete-btn:hover {
+        background-color: #cc0000;
     }
-
-  
-    .banner {
-      width: 100%;
-      height: 250px;
-      background: url('https://wallpapers.com/images/hd/san-francisco-hd-2i11alxz9nrbiu19.jpg') no-repeat center/cover;
-      display: flex;
-      align-items: flex-end;
-      padding: 20px;
-      color: white;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .banner button {
-      margin-top: 50px;
-      padding: 8px 15px;
-      background: #ff9800;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #fff;
-     justify-content: space-between;
-    }
-
- 
-    .products {
-      padding: 20px;
-    }
-
-    .products h2 {
-      margin-bottom: 15px;
-    }
-
-   .product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
-  justify-items: center; 
-}
-
-.product {
-  width: 220px; 
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #fff;
-  transition: 0.3s;
-}
-
-.product:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-    .product .img-container {
-  width: 100%;
-  height: 180px;
-  background: #f8f8f8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.product .img-container img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-.product img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-bottom: 1px solid #eee;
-}
-.product-grid:empty::after {
-  content: "No products found";
-  font-size: 16px;
-  color: #555;
-  text-align: center;
-  grid-column: 1 / -1;
-}
-   
-
-    .product .info {
-      padding: 10px;
-    }
-
-    .product .price {
-      font-weight: bold;
-      color: #000;
-    }
-
-    .product .details {
-      font-size: 13px;
-      margin-top: 5px;
-      color: #555;
-    }
-   
-.sort-container {
-  margin: 20px 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: #333;
-  font-weight: 500;
-}
-
-.sort-container label {
-  margin-right: 5px;
-}
-
-.sort-container select {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #fff;
-  cursor: pointer;
-  transition: 0.3s;
-  font-size: 14px;
-}
-
-
-.sort-container select:hover {
-  border-color: #007bff;
-}
-
-
-.sort-container select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0,123,255,0.3);
-}
-.categories {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-  background: #f9f9f9;
-  flex-wrap: wrap;
-}
-
-.categories a {
-  text-decoration: none;
-  color: #333;
-  font-size: 14px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  transition: 0.3s;
-  cursor: pointer;
-  background: #fff;
-  border: 1px solid transparent;
-}
-
-.categories a:hover {
-  color: #007bff;
-  border: 1px solid #007bff;
-  background: #e6f0ff;
-}
-
-.categories a.active {
-  color: #fff;
-  background: #007bff;
-  border: 1px solid #007bff;
-}
-
-
   </style>
 </head>
 <body>
-
-  <div class="navbar">
-    <div class="logo">OLX</div>
-    <select>
-      <option>Maharashtra</option>
-      <option>Karnataka</option>
-      <option>Delhi</option>
-      <option>Telangana</option>
-      <option>Andhra Pradesh</option>
+<div class="navbar">
+    <div class="logo">
+        <img src="Gemini_Generated_Image_w80jljw80jljw80j.png" alt="Urban Bazaar" onerror="this.src='https://via.placeholder.com/150?text=Urban+Bazaar'">
+    </div>         
+    
+    <select id="selectLocation" class="location-filter">
+      <option value="all">All Locations</option>
+      <option value="Karnataka">Karnataka</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Hyderabad">Hyderabad</option>
+      <option value="Andhra Pradesh">Andhra Pradesh</option>
+      <option value="Bhubaneshwar">Bhubaneshwar</option>
+      <option value="Nashik">Nashik</option>
+      <option value="Chandigarh">Chandigarh</option>
     </select>
-    <input type="text" placeholder="Search 'Mobiles'">
-    <div class="actions">
-      <a href="#">Login</a>
-      <button class="sell-btn">+ SELL</button>
-    </div>
-  </div>
 
-  <div class="categories">
+    <div class="search-container">
+      <input type="text" placeholder="Find Cars, Mobile Phones and more...">
+      <button class="search-btn">🔍</button>
+    </div>
+    
+    <div class="lang">
+      <select>
+        <option>ENGLISH</option>
+        <option>हिन्दी</option>
+        <option>తెలుగు</option>
+        <option>தமிழ்</option>
+      </select>
+    </div>
+
+    <div class="actions">
+      <span class="icon">❤️</span>
+      <span class="icon">💬</span>
+      <span class="icon">🔔</span>
+      <div class="user-menu">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User" class="user-icon">
+        <select id="userOptions">
+          <option selected disabled>Account</option>
+          <option value="login">Login</option>
+          <option value="signup">Signup</option>
+          <option value="logout">Logout</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="sell-btn">+ SELL</button>
+</div>
+
+<div class="categories">
     <a href="#">All</a>
     <a href="#">Cars</a>
     <a href="#">Motorcycles</a>
@@ -286,7 +112,6 @@
     <a href="#">Houses</a>
     <a href="#">scooters</a>
     <a href="#">Commercial Vehicles</a>
-    
     <a href="#">Sofa</a>
     <a href="#">fridge</a>
     <a href="#">Wash Machine</a>
@@ -298,852 +123,195 @@
     <a href="#">ac</a>
     <a href="#">laptop</a>
     <a href="#">cycle</a>
-  </div>
-  <div class="banner">
+</div>
+
+<div class="banner">
     San Francisco from ₹96,834
     <br>
     <button>Let's Fly</button>
-
-
-  </div>
-  
-
-
-
-   <div class="sort-container">
-    <label for="sort">Sort by:</label>
-  <select id="sort">
-    <option value="priceLow">Price: Low to High</option>
-    <option value="priceHigh">Price: High to Low</option>
-  </select>
 </div>
 
+<div class="sort-container">
+    <label for="sort">Sort by:</label>
+    <select id="sort">
+      <option value="priceLow">Price: Low to High</option>
+      <option value="priceHigh">Price: High to Low</option>
+    </select>
+</div>
 
-<div id="sellModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-    background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
+<div id="sellModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
   <div style="background:#fff; padding:20px; border-radius:10px; width:400px; position:relative;">
     <span id="closeSellModal" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:25px;">&times;</span>
-
-
-
     <h2>Sell Your Item</h2>
     <form id="sellForm">
       <input type="text" id="itemName" placeholder="Item Name" required style="width:100%; margin:5px 0; padding:8px;">
-      <input type="text" id="itemCategory" placeholder="Category (cars, motorcycles, sofa, etc.)" required style="width:100%; margin:5px 0; padding:8px;">
+      <input type="text" id="itemcategory" placeholder="Category" required style="width:100%; margin:5px 0; padding:8px;">
       <input type="text" id="itemPrice" placeholder="Price (₹)" required style="width:100%; margin:5px 0; padding:8px;">
       <textarea id="itemDetails" placeholder="Details" required style="width:100%; margin:5px 0; padding:8px;"></textarea>
       <input type="url" id="itemImage" placeholder="Image URL" required style="width:100%; margin:5px 0; padding:8px;">
+      <input type="text" id="itemLocation" placeholder="Location" required style="width:100%; margin:5px 0; padding:8px;">
       <button type="submit" style="padding:8px 15px; background:#007bff; color:#fff; border:none; border-radius:5px; cursor:pointer;">Add Item</button>
     </form>
   </div>
 </div>
 
-
-
-
- <div class="products">
+<div class="products">
   <h2>Fresh recommendations</h2>
-  <div class="product-grid">
-    <div class="product" data-category="laptop">
-      <img src="download (3).jpeg" alt="Dell Inspiron">
-      <div class="info">
-        <div class="price">₹ 45,000</div>
-        <div class="details">Dell Inspiron 15 <br> Core i5, 8GB RAM</div>
-      </div>
-    </div>
-    <div class="product" data-category="Motorcycles">
-      <img src="download (4).jpeg" alt="Yamaha FZ">
-      <div class="info">
-        <div class="price">₹ 75,000</div>
-        <div class="details">2019 - 20,000 km <br> Yamaha FZ V3</div>
-      </div>
-    </div>
-    <div class="product" data-category="sofa">
-      <img src="download (5).jpeg" alt="Sofa Set">
-      <div class="info">
-        <div class="price">₹ 12,000</div>
-        <div class="details">Sofa Set, 3+2 <br> Excellent Condition</div>
-      </div>
-    </div>
+  <div class="product-grid"></div> 
+</div> 
 
-    <div class="product" data-category="fridge">
-      <img src="download (6).jpeg" alt="LG Fridge">
-      <div class="info">
-        <div class="price">₹ 22,000</div>
-        <div class="details">LG Double Door <br> 260L, Almost New</div>
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-section">
+      <h4>POPULAR LOCATIONS</h4>
+      <p><a href="#" class="location-link" data-location="Kolkata">Kolkata</a></p>
+      <p><a href="#" class="location-link" data-location="Mumbai">Mumbai</a></p>
+      <p><a href="#" class="location-link" data-location="Chennai">Chennai</a></p>
+      <p><a href="#" class="location-link" data-location="Pune">Pune</a></p>
+    </div>
+    <div class="footer-section">
+      <h4>TRENDING LOCATIONS</h4>
+      <p><a href="#" class="location-link" data-location="Bhubaneshwar">Bhubaneshwar</a></p>
+      <p><a href="#" class="location-link" data-location="Hyderabad">Hyderabad</a></p>
+      <p><a href="#" class="location-link" data-location="Chandigarh">Chandigarh</a></p>
+      <p><a href="#" class="location-link" data-location="Nashik">Nashik</a></p>
+    </div>
+    <div class="footer-section">
+      <h4>ABOUT US</h4>
+      <p><a href="#" class="nav-link" data-action="Tech@UrbanBazaar">Tech@UrbanBazaar</a></p>
+      <p><a href="#" class="nav-link" data-action="Careers">Careers</a></p>
+    </div>
+    <div class="footer-section">
+      <h4>URBAN BAZAAR</h4>
+      <p><a href="#" class="nav-link" data-action="Blog">Blog</a></p>
+      <p><a href="#" class="nav-link" data-action="Help">Help</a></p>
+      <p><a href="#" class="nav-link" data-action="Sitemap">Sitemap</a></p>
+    </div>
+    <div class="footer-section follow">
+      <h4>FOLLOW US</h4>
+      <div class="social-icons">
+        <a href="#" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+        <a href="#" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram"></a>
       </div>
     </div>
+  </div>
+  <div class="footer-bottom">
+    <p>All rights reserved © 2006–2025 Urban Bazaar</p>
+  </div>
+</footer>
 
-    <div class="product" data-category="washmachine">
-      <img src="download (7).jpeg" alt="Washing Machine">
-      <div class="info">
-        <div class="price">₹ 10,500</div>
-        <div class="details">Samsung 6kg <br> Top Load, Excellent</div>
-      </div>
-    </div>
-    <div class="product" data-category="houses">
-  <img src="download (25).jpeg" alt="House">
-  <div class="info">
-    <div class="price">₹ 50,00,000</div>
-    <div class="details">3 BHK, Fully Furnished <br> New Build</div>
+<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1100;">
+  <div style="background:#fff; padding:30px; border-radius:10px; width:350px; position:relative; text-align:center;">
+    <span id="closeAuthModal" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:25px;">&times;</span>
+    <h2 id="authTitle">Login to Urban Bazaar</h2>
+    <form id="emailAuthForm">
+      <input type="email" id="emailInput" placeholder="Email Address" required style="width:90%; margin:5px 0; padding:10px;">
+      <input type="password" id="passwordInput" placeholder="Password" required style="width:90%; margin:5px 0; padding:10px;">
+      <button type="submit" id="authButton" style="width:90%; padding:10px; background:#007bff; color:#fff; border:none; border-radius:5px; cursor:pointer;">Login</button>
+    </form>
   </div>
 </div>
-<div class="product" data-category="houses">
-  <img src="modern-home-traditional-sensibilities-01-s.jpg" alt="House">
-  <div class="info">
-    <div class="price">₹ 60,00,000</div>
-    <div class="details">3 BHK, Fully Furnished 2500sq.ft <br> New Build</div>
-  </div>
-</div>
-<div class="product" data-category="houses">
-  <img src="images (4).jpeg" alt="House">
-  <div class="info">
-    <div class="price">₹ 40,00,000</div>
-    <div class="details">4 BHK, Fully Furnished 2500sq.ft <br> New Build</div>
-  </div>
-</div>
-<div class="product" data-category="houses">
-  <img src="images (6).jpeg" alt="House">
-  <div class="info">
-    <div class="price">₹ 10,000,000</div>
-    <div class="details">Mansion <br> New Build</div>
-  </div>
-</div>
-<div class="product" data-category="houses">
-  <img src="images (5).jpeg" alt="House">
-  <div class="info">
-    <div class="price">₹ 50,00,000</div>
-    <div class="details">4 BHK, Fully Furnished 2500sq.ft <br> New Build</div>
-  </div>
-</div>
-<div class="product" data-category="houses">
-  <img src="images (7).jpeg" alt="House">
-  <div class="info">
-    <div class="price">₹ 30,000,000</div>
-    <div class="details">4 BHK,Luxuary house <br> New Build</div>
-  </div>
-</div>
-
-<div class="product" data-category="scooters">
-  <img src="download (26).jpeg" alt="Scooter">
-  <div class="info">
-    <div class="price">₹ 65,000</div>
-    <div class="details">2023 - 5,000 km <br> Honda Activa</div>
-  </div>
-</div>
-<div class="product" data-category="scooters">
-  <img src="honda-dio.jpg.webp" alt="Scooter">
-  <div class="info">
-    <div class="price">₹ 50,000</div>
-    <div class="details">2023 - 5,000 km <br> Honda Dio</div>
-  </div>
-</div>
-<div class="product" data-category="scooters">
-  <img src="matt_grey.webp" alt="Scooter">
-  <div class="info">
-    <div class="price">₹ 45,000</div>
-    <div class="details">2022 - 5,000 km <br> Yamaha Fascino 125 Fi</div>
-  </div>
-</div>
-<div class="product" data-category="scooters">
-  <img src="scooty-right-side-view-2.avif" alt="Scooter">
-  <div class="info">
-    <div class="price">₹ 40,000</div>
-    <div class="details">2023 - 5,000 km <br>Tvs scooty Pep Plus</div>
-  </div>
-</div>
-<div class="product" data-category="scooters">
-  <img src="metallic-titanium-grey-tvs-jupiter-image.avif" alt="Scooter">
-  <div class="info">
-    <div class="price">₹ 65,000</div>
-    <div class="details">2024 - 3,000 km <br>Tvs Jupiter</div>
-  </div>
-</div>
-
-<div class="product" data-category="commercialvehicles">
-  <img src="download (27).jpeg" alt="Commercial Vehicle">
-  <div class="info">
-    <div class="price">₹ 7,00,000</div>
-    <div class="details">Tata Ace <br> 2018 Model</div>
-  </div>
-</div>
-<div class="product" data-category="commercialvehicles">
-  <img src="mahindra-supro-profit.jpeg" alt="Commercial Vehicle">
-  <div class="info">
-    <div class="price">₹ 3,00,000</div>
-    <div class="details">Mahindra supro Profit Truck Mini<br> 2018 Model</div>
-  </div>
-</div>
-<div class="product" data-category="commercialvehicles">
-  <img src="tata_yodha_3cddb3d3dd.webp" alt="Commercial Vehicle">
-  <div class="info">
-    <div class="price">₹ 5,00,000</div>
-    <div class="details">Tata Yodha 2.0 <br> 2019 Model</div>
-  </div>
-</div>
-<div class="product" data-category="commercialvehicles">
-  <img src="eicher-lmd-commercial-vehicle-10-72-e2-plus-1000x1000.jpg" alt="Commercial Vehicle">
-  <div class="info">
-    <div class="price">₹ 7,00,000</div>
-    <div class="details">Light and medium duty Truck<br> 2019 Model</div>
-  </div>
-</div>
-<div class="product" data-category="commercialvehicles">
-  <img src="traveller-school-bus-500x500.webp" alt="Commercial Vehicle">
-  <div class="info">
-    <div class="price">₹ 6,00,000</div>
-    <div class="details">Medium and heavy commercial vehicle <br> 2018 Model</div>
-  </div>
-</div>
-<div class="product" data-category="commercialvehicles">
-  <img src="CMPR.webp" alt="Commercial Vehicle">
-  <div class="info">
-    <div class="price">₹ 7,00,000</div>
-    <div class="details">Bolero camper <br> 2018 Model</div>
-  </div>
-</div>    <div class="product" data-category="smarttv">
-      <img src="download (8).jpeg" alt="Smart TV">
-      <div class="info">
-        <div class="price">₹ 18,000</div>
-        <div class="details">Sony Bravia 42" <br> Full HD Smart TV</div>
-      </div>
-    </div>
-
-    <div class="product" data-category="cycle">
-      <img src="download (9).jpeg" alt="Mountain Bike">
-      <div class="info">
-        <div class="price">₹ 7,500</div>
-        <div class="details">Hero MTB <br> 21-speed, Almost New</div>
-      </div>
-    </div>
-
-    <div class="product" data-category="watch">
-      <img src="download (10).jpeg" alt="Smart Watch">
-      <div class="info">
-        <div class="price">₹ 4,000</div>
-        <div class="details">Apple Watch Series 6 <br> Used, Good Condition</div>
-      </div>
-    </div> 
-    <div class="product" data-category="cars">
-      <img src="download.jpeg" alt="Skoda Rapid">
-      <div class="info">
-        <div class="price">₹ 5,00,000</div>
-        <div class="details">2015 - 75,000 km <br> Skoda Rapid Elegance</div>
-      </div>
-    </div>
-    <div class="product" data-category="cars">
-      <img src="image.png" alt="Jaguar">
-      <div class="info">
-        <div class="price">₹72,00,000</div>
-        <div class="details">2014 - 75,000 km <br> Jaguar 2.0 R-Dynamic S Diesel</div>
-      </div>
-    </div>
-    <div class="product" data-category="cars">
-      <img src="D1.jpeg" alt="Mercedes">
-      <div class="info">
-        <div class="price">₹10,000,000</div>
-        <div class="details">2014 - 95,000km <br> Engine:4.0L V8 biturbo  power:476 to 585 HP</div>
-      </div>
-    </div>
-    <div class="product" data-category="cars">
-      <img src="D2.jpeg" alt="Porsche">
-      <div class="info">
-        <div class="price">₹10,000,000</div>
-        <div class="details">2014 - 95,000km <br>Porsche Engine:Two electric motors  power:476 to 598 HP</div>
-      </div>
-    </div>
-    <div class="product" data-category="cars">
-      <img src="D3.jpeg" alt="Audi">
-      <div class="info">
-        <div class="price">₹15,000,000</div>
-        <div class="details">2017 - 95,000km <br> AUDI Engine:3.0L six-cylinder boxer biturbo  power:385 to 650 HP</div>
-      </div>
-    </div>
-    <div class="product" data-category="cars">
-      <img src="D4.jpeg" alt="Porsche">
-      <div class="info">
-        <div class="price">₹15,000,000</div>
-        <div class="details">2015 - 95,000km <br>Porsche Panamera Engine:3.0L six-cylinder boxer biturbo  power:385 to 650 HP</div>
-      </div>
-    </div>
-    <div class="product" data-category="scooters">
-      <img src="download (1).jpeg" alt="TVS Ntorq">
-      <div class="info">
-        <div class="price">₹ 88,888</div>
-        <div class="details">2024 - 11,400 km <br> TVS Ntorq Race Edition</div>
-      </div>
-    </div>
-    <div class="product" data-category="smartphones">
-      <img src="shopping.webp" alt="iPhone 16">
-      <div class="info">
-        <div class="price">₹ 62,000</div>
-        <div class="details">iPhone 16 sealed box <br> Non-activated</div>
-      </div>
-    </div>
-    <div class="product" data-category="smartphones">
-      <img src="download.webp" alt="iPhone 11">
-      <div class="info">
-        <div class="price">₹ 17,000</div>
-        <div class="details">iPhone 11, 64GB <br> 83% Battery Health</div>
-      </div>
-    </div>
-    <div class="product" data-category="camera">
-      <img src="download (24).jpeg" alt="DSLR Camera">
-      <div class="info">
-        <div class="price">₹ 25,000</div>
-        <div class="details">Canon EOS 1500D <br> With Kit Lens</div>
-      </div>
-    </div>
-    <div class="product" data-category="headset">
-      <img src="download (23).jpeg" alt="Headphones">
-      <div class="info">
-        <div class="price">₹ 3,500</div>
-        <div class="details">Bose QC35 <br> Used, Excellent</div>
-      </div>
-    </div>
-    <div class="product" data-category="microwave">
-      <img src="images (3).jpeg" alt="Microwave">
-      <div class="info">
-        <div class="price">₹ 6,200</div>
-        <div class="details">IFB 20L <br> Almost New</div>
-      </div>
-    </div>
-    <div class="product" data-category="smartphones">
-      <img src="download (22).jpeg" alt="Tablet">
-      <div class="info">
-        <div class="price">₹ 12,000</div>
-        <div class="details">iPad 9th Gen <br> 64GB, WiFi</div>
-      </div>
-    </div>
-    <div class="product" data-category="ac">
-      <img src="download (21).jpeg" alt="AC">
-      <div class="info">
-        <div class="price">₹ 18,500</div>
-        <div class="details">Voltas 1.5 Ton <br> Split AC, 2020</div>
-      </div>
-    </div>
-    <div class="product" data-category="camera">
-      <img src="download (20).jpeg" alt="Camera">
-      <div class="info">
-        <div class="price">₹ 15,000</div>
-        <div class="details">Nikon D3500 <br> With Lens</div>
-      </div>
-    </div>
-    <div class="product" data-category="sofa">
-      <img src="download (19).jpeg" alt="Sofa">
-      <div class="info">
-        <div class="price">₹ 10,000</div>
-        <div class="details">L-Shaped Sofa <br> Almost New</div>
-      </div>
-    </div>
-    <div class="product" data-category="sofa">
-      <img src="shopping (2).webp" alt="Sofa">
-      <div class="info">
-        <div class="price">₹ 90,000</div>
-        <div class="details">Pretty-Leather 3 seater sofa <br> Almost New</div>
-      </div>
-    </div>
-    <div class="product" data-category="sofa">
-      <img src="shopping (3).webp" alt="Sofa">
-      <div class="info">
-        <div class="price">₹ 80,000</div>
-        <div class="details">Rainer-Leather 3 sofa in light blue <br> Almost New</div>
-      </div>
-    </div>
-    <div class="product" data-category="sofa">
-      <img src="download (28).jpeg" alt="Sofa">
-      <div class="info">
-        <div class="price">₹ 10,000</div>
-        <div class="details"> L shape sofa 54 <br> Almost New</div>
-      </div>
-    </div>
-    <div class="product" data-category="sofa">
-      <img src="shopping (4).webp" alt="Sofa">
-      <div class="info">
-        <div class="price">₹ 20,000</div>
-        <div class="details"> Recliner sofa <br> Almost New</div>
-      </div>
-    </div>
-    <div class="product" data-category="motorcycles">
-      <img src="images (2).jpeg" alt="Motorcycle">
-      <div class="info">
-        <div class="price">₹ 90,000</div>
-        <div class="details">Honda CB Shine <br> 2021, 5,000 km</div>
-      </div>
-    </div>
-    <div class="product" data-category="motorcycles">
-      <img src="d1.webp" alt="Motorcycle">
-      <div class="info">
-        <div class="price">₹ 60,000</div>
-        <div class="details">TVS Raider 125<br> 2022, 5,000 km</div>
-      </div>
-    </div>
-    <div class="product" data-category="motorcycles">
-      <img src="d2.avif" alt="Motorcycle">
-      <div class="info">
-        <div class="price">₹ 1,00,000</div>
-        <div class="details">MT-15 ver 2.0 <br> 2021, 5,000 km</div>
-      </div>
-    </div>
-    <div class="product" data-category="motorcycles">
-      <img src="d4.avif" alt="Motorcycle">
-      <div class="info">
-        <div class="price">₹ 6,50,000</div>
-        <div class="details">Kawasaki Ninja 650<br> 2023, 10,000 km</div>
-      </div>
-    </div>
-    <div class="product" data-category="motorcycles">
-      <img src="matte-black.webp" alt="Motorcycle">
-      <div class="info">
-        <div class="price">₹ 90,000</div>
-        <div class="details">Yamaha R15<br> 2023, 8,000 km</div>
-      </div>
-    </div>
-    <div class="product" data-category="motorcycles">
-      <img src="Jawa-42-Cosmic-Carbon.webp" alt="Motorcycle">
-      <div class="info">
-        <div class="price">₹ 3,00,000</div>
-        <div class="details">JAWA 42<br> 2022, 8,000 km</div>
-      </div>
-    </div>
-    <div class="product" data-category="fridge">
-      <img src="images (1).jpeg" alt="Fridge">
-      <div class="info">
-        <div class="price">₹ 18,000</div>
-        <div class="details">Samsung 250L <br> Double Door</div>
-      </div>
-    </div>
-    <div class="product" data-category="fridge">
-      <img src="shopping (5).webp" alt="Fridge">
-      <div class="info">
-        <div class="price">₹ 50,000</div>
-        <div class="details">Samsung 633L,3 star,frost free<br> Double Door</div>
-      </div>
-    </div>
-    <div class="product" data-category="fridge">
-      <img src="shopping (7).webp" alt="Fridge">
-      <div class="info">
-        <div class="price">₹ 1,50,000</div>
-        <div class="details">samsung 657L<br> Double Door</div>
-      </div>
-    </div>
-    <div class="product" data-category="fridge">
-      <img src="shopping (6).webp" alt="Fridge">
-      <div class="info">
-        <div class="price">₹ 5,00,000</div>
-        <div class="details">LG LRMVC2306D counter-depth refrigerator<br> Double Door</div>
-      </div>
-    </div>
-    <div class="product" data-category="smarttv">
-      <img src="download (18).jpeg" alt="TV">
-      <div class="info">
-        <div class="price">₹ 20,000</div>
-        <div class="details">LG 43" <br> Full HD Smart</div>
-      </div>
-    </div>
-    <div class="product" data-category="laptop">
-      <img src="download (17).jpeg" alt="Laptop">
-      <div class="info">
-        <div class="price">₹ 55,000</div>
-        <div class="details">HP Pavilion <br> Core i7, 16GB RAM</div>
-      </div>
-    </div>
-    <div class="product" data-category="washmachine">
-      <img src="download (16).jpeg" alt="Washing Machine">
-      <div class="info">
-        <div class="price">₹ 9,500</div>
-        <div class="details">Bosch 6kg <br> Front Load</div>
-      </div>
-    </div>
-    <div class="product" data-category="cycle">
-      <img src="images.jpeg" alt="Bicycle">
-      <div class="info">
-        <div class="price">₹ 6,500</div>
-        <div class="details">BTwin MTB <br> 18-speed</div>
-      </div>
-    </div>
-    <div class="product" data-category="watch">
-      <img src="download (15).jpeg" alt="Smart Watch">
-      <div class="info">
-        <div class="price">₹ 3,800</div>
-        <div class="details">Samsung Galaxy Watch <br> Used, Good</div>
-      </div>
-    </div>
-    <div class="product" data-category="headset">
-      <img src="download (14).jpeg" alt="Headphones">
-      <div class="info">
-        <div class="price">₹ 2,500</div>
-        <div class="details">JBL Tune 500BT <br> New</div>
-      </div>
-    </div>
-    <div class="product" data-category="microwave">
-      <img src="download (13).jpeg" alt="Microwave">
-      <div class="info">
-        <div class="price">₹ 5,800</div>
-        <div class="details">Samsung 20L <br> Almost New</div>
-      </div>
-    </div>
-        <div class="product" data-category="microwave">
-      <img src="download (39).jpeg" alt="Microwave">
-      <div class="info">
-        <div class="price">₹ 6,000</div>
-        <div class="details">Panasonic Genius sensor inverter <br> Almost New</div>
-      </div>
-    </div>
-        <div class="product" data-category="microwave">
-      <img src="Toshiba-EM131A5C_20250418-043534_full.jpeg" alt="Microwave">
-      <div class="info">
-        <div class="price">₹ 2,000</div>
-        <div class="details">Toshiba EM131A5C <br> Almost New</div>
-      </div>
-    </div>
-        <div class="product" data-category="microwave">
-      <img src="Panasonic-HomeChef-Connect-4-in-1-Multi-oven-NN-CV87QS_20250716-211908_full.jpeg" alt="Microwave">
-      <div class="info">
-        <div class="price">₹ 1,500</div>
-        <div class="details">Panasonic homeChef Connect <br> Almost New</div>
-      </div>
-    </div>
-        <div class="product" data-category="microwave">
-      <img src="microwaves-2048px-2-2.webp" alt="Microwave">
-      <div class="info">
-        <div class="price">₹ 1,000</div>
-        <div class="details">Microwave 2024<br> Almost New</div>
-      </div>
-    </div>
-    <div class="product" data-category="smartphones">
-      <img src="download (12).jpeg" alt="Tablet">
-      <div class="info">
-        <div class="price">₹ 11,500</div>
-        <div class="details">Samsung Tab A <br> 64GB, WiFi</div>
-      </div>
-    </div>
-    <div class="product" data-category="smartphones">
-      <img src="i.webp" alt="Tablet">
-      <div class="info">
-        <div class="price">₹ 75,000</div>
-        <div class="details">Apple iphone 16pro<br> 128GB, Desert Titanium</div>
-      </div>
-    </div>
-    <div class="product" data-category="smartphones">
-      <img src="shopping (1).webp" alt="Tablet">
-      <div class="info">
-        <div class="price">₹ 1,00,000</div>
-        <div class="details">Apple iphone 17pro<br> 256GB, Cosmic Orange</div>
-      </div>
-    </div>
-    <div class="product" data-category="ac">
-      <img src="download (11).jpeg" alt="AC">
-      <div class="info">
-        <div class="price">₹ 17,000</div>
-        <div class="details">LG 1.5 Ton <br> Split AC, 2021</div>
-      </div>
-    </div>
-  
-
-<div class="product" data-category="cars">
-  <img src="download (29).jpeg" alt="Toyota Corolla">
-  <div class="info">
-    <div class="price">₹ 7,50,000</div>
-    <div class="details">Toyota Corolla <br> 2016 - 50,000 km</div>
-  </div>
-</div>
-<div class="product" data-category="cars">
-  <img src="download (30).jpeg" alt="Honda Civic">
-  <div class="info">
-    <div class="price">₹ 8,20,000</div>
-    <div class="details">Honda Civic <br> 2017 - 40,000 km</div>
-  </div>
-</div>
-<div class="product" data-category="cars">
-  <img src="download (31).jpeg" alt="Hyundai Creta">
-  <div class="info">
-    <div class="price">₹ 9,00,000</div>
-    <div class="details">Hyundai Creta <br> 2018 - 30,000 km</div>
-  </div>
-</div>
-<div class="product" data-category="motorcycles">
-  <img src="download (32).jpeg" alt="Royal Enfield">
-  <div class="info">
-    <div class="price">₹ 1,80,000</div>
-    <div class="details">Royal Enfield Classic <br> 2019 - 10,000 km</div>
-  </div>
-</div>
-<div class="product" data-category="motorcycles">
-  <img src="download (33).jpeg" alt="KTM Duke">
-  <div class="info">
-    <div class="price">₹ 2,00,000</div>
-    <div class="details">KTM Duke 390 <br> 2020 - 5,000 km</div>
-  </div>
-</div>
-<div class="product" data-category="motorcycles">
-  <img src="download (34).jpeg" alt="Honda CB500">
-  <div class="info">
-    <div class="price">₹ 3,50,000</div>
-    <div class="details">Honda CB500 <br> 2021 - 3,000 km</div>
-  </div>
-</div>
-<div class="product" data-category="sofa">
-  <img src="download (35).jpeg" alt="3-Seater Sofa">
-  <div class="info">
-    <div class="price">₹ 35,000</div>
-    <div class="details">3-Seater Sofa <br> Excellent Condition</div>
-  </div>
-</div>
-<div class="product" data-category="sofa">
-  <img src="download (36).jpeg" alt="L-Shaped Sofa">
-  <div class="info">
-    <div class="price">₹ 50,000</div>
-    <div class="details">L-Shaped Sofa <br> Almost New</div>
-  </div>
-</div>
-<div class="product" data-category="sofa">
-  <img src="download (37).jpeg" alt="Recliner Sofa">
-  <div class="info">
-    <div class="price">₹ 40,000</div>
-    <div class="details">Recliner Sofa <br> Very Comfortable</div>
-  </div>
-</div>
-<div class="product" data-category="fridge">
-  <img src="images (8).jpeg" alt="Samsung Fridge">
-  <div class="info">
-    <div class="price">₹ 25,000</div>
-    <div class="details">Samsung 300L <br> Double Door</div>
-  </div>
-</div>
-<div class="product" data-category="fridge">
-  <img src="images (9).jpeg" alt="LG Fridge">
-  <div class="info">
-    <div class="price">₹ 30,000</div>
-    <div class="details">LG 260L <br> Frost Free</div>
-  </div>
-</div>
-<div class="product" data-category="fridge">
-  <img src="images (10).jpeg" alt="Whirlpool Fridge">
-  <div class="info">
-    <div class="price">₹ 28,500</div>
-    <div class="details">Whirlpool 280L <br> Double Door</div>
-  </div>
-</div>
-<div class="product" data-category="smartphones">
-  <img src="images (11).jpeg" alt="iPhone 15">
-  <div class="info">
-    <div class="price">₹ 55,000</div>
-    <div class="details">iPhone 15 <br> 128GB</div>
-  </div>
-</div>
-<div class="product" data-category="smartphones">
-  <img src="images (12).jpeg" alt="Samsung Galaxy S23">
-  <div class="info">
-    <div class="price">₹ 60,000</div>
-    <div class="details">Samsung S23 <br> 256GB</div>
-  </div>
-</div>
-<div class="product" data-category="smartphones">
-  <img src="download (38).jpeg" alt="OnePlus 12">
-  <div class="info">
-    <div class="price">₹ 50,000</div>
-    <div class="details">OnePlus 12 <br> 128GB</div>
-  </div>
-</div>
-<div class="product" data-category="laptop">
-  <img src="images (13).jpeg" alt="Dell Inspiron">
-  <div class="info">
-    <div class="price">₹ 45,000</div>
-    <div class="details">Dell Inspiron <br> Core i5, 8GB RAM</div>
-  </div>
-</div>
-<div class="product" data-category="laptop">
-  <img src="images (14).jpeg" alt="HP Pavilion">
-  <div class="info">
-    <div class="price">₹ 55,000</div>
-    <div class="details">HP Pavilion <br> Core i7, 16GB RAM</div>
-  </div>
-</div>
-<div class="product" data-category="laptop">
-  <img src="images (15).jpeg" alt="MacBook Air">
-  <div class="info">
-    <div class="price">₹ 90,000</div>
-    <div class="details">MacBook Air <br> M2 Chip, 8GB RAM</div>
-  </div>
-</div>
-
-
-
-  </div>
-</div>
-
-
-<div id="imageModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-    background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
-  <span id="closeModal" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:30px; color:white;">&times;</span>
-  <img id="modalImg" src="" style="max-width:90%; max-height:90%; border-radius:8px;">
-</div>
-
-
-
-</body>
-</html>
 
 <script>
+    let allProducts = [];
+    let currentSearchTerm = '';
+    let productIdCounter = Date.now(); 
 
-  const searchInput = document.querySelector('.navbar input');
-  const products = document.querySelectorAll('.product');
-
-  searchInput.addEventListener('input', function() {
-    const filter = this.value.toLowerCase();
-    products.forEach(product => {
-      const details = product.querySelector('.details').innerText.toLowerCase();
-      const price=product.querySelector('.price').innerText.toLowerCase();
-      const allDetails=details+" "+price;
-      if(allDetails.includes(filter)) {
-        product.style.display = 'block';
-      } else {
-        product.style.display = 'none';
-      }
-    });
-  });
-
- 
-  const locationSelect = document.querySelector('.navbar select');
-  locationSelect.addEventListener('change', function() {
-    alert('Selected Location: ' + this.value);
-  });
-
- 
     const sellBtn = document.querySelector('.sell-btn');
-const sellModal = document.getElementById('sellModal');
-const closeSellModal = document.getElementById('closeSellModal');
-const sellForm = document.getElementById('sellForm');
-const productGrid = document.querySelector('.product-grid');
+    const sellModal = document.getElementById('sellModal');
+    const closeSellModal = document.getElementById('closeSellModal');
+    const sellForm = document.getElementById('sellForm');
+    const productGrid = document.querySelector('.product-grid');
+    const selectLocation = document.getElementById('selectLocation');
+    const searchInput = document.querySelector('.search-container input');
+    const sortSelect = document.getElementById('sort');
 
+    const initialProducts = [
+        { id: 1, name: "Dell Inspiron 15", category: "laptop", price: 45000, details: "Core i5, 8GB RAM", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500", location: "Hyderabad" },
+        { id: 2, name: "Maruti Swift", category: "car", price: 450000, details: "VDI 2018 Excellent Condition", image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=500", location: "Delhi" }
+    ];
 
-sellBtn.addEventListener('click', () => {
-  sellModal.style.display = 'flex';
-});
+    function loadProducts() {
+        const savedProducts = JSON.parse(localStorage.getItem('products')) || [];
+        allProducts = [...initialProducts, ...savedProducts];
+        filterAndSortProducts(); 
+    }
 
+    function addProductToGrid(product) {
+        const newProduct = document.createElement('div');
+        newProduct.classList.add('product');
+        newProduct.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300?text=No+Image+Found'">
+            <div class="info">
+                <div class="price">₹ ${product.price.toLocaleString('en-IN')}</div>
+                <div class="details"><strong>${product.name}</strong><br>${product.details}</div>
+                <button class="delete-btn" onclick="deleteProduct(${product.id})">Delete Item</button>
+            </div>`;
+        productGrid.appendChild(newProduct);
+    }
 
-closeSellModal.addEventListener('click', () => {
-  sellModal.style.display = 'none';
-});
-sellModal.addEventListener('click', (e) => {
-  if(e.target === sellModal) sellModal.style.display = 'none';
-});
+    function deleteProduct(id) {
+        if(confirm("Are you sure you want to delete this item?")) {
+            allProducts = allProducts.filter(p => p.id !== id);
+            let saved = JSON.parse(localStorage.getItem('products')) || [];
+            saved = saved.filter(p => p.id !== id);
+            localStorage.setItem('products', JSON.stringify(saved));
+            filterAndSortProducts();
+        }
+    }
 
+    function filterAndSortProducts() {
+        const selectedLoc = selectLocation.value.toLowerCase();
+        
+        // Updated searchMatch to include Price
+        let filtered = allProducts.filter(p => {
+            const locMatch = selectedLoc === 'all' || p.location.toLowerCase() === selectedLoc;
+            const searchMatch = !currentSearchTerm || 
+                                (p.name + p.details).toLowerCase().includes(currentSearchTerm) ||
+                                p.price.toString().includes(currentSearchTerm);
+            return locMatch && searchMatch;
+        });
 
-sellForm.addEventListener('submit', (e) => {
-  e.preventDefault();
+        // Sorting Logic
+        if (sortSelect.value === 'priceLow') {
+            filtered.sort((a, b) => a.price - b.price);
+        } else {
+            filtered.sort((a, b) => b.price - a.price);
+        }
 
-  
-  const name = document.getElementById('itemName').value;
-  const category = document.getElementById('itemCategory').value.toLowerCase().replace(/\s+/g,'');
-  const price = document.getElementById('itemPrice').value;
-  const details = document.getElementById('itemDetails').value;
-  const image = document.getElementById('itemImage').value;
+        productGrid.innerHTML = '';
+        filtered.forEach(addProductToGrid);
+    }
 
-  
-  const product = document.createElement('div');
-  product.className = 'product';
-  product.dataset.category = category;
-  product.innerHTML = `
-    <img src="${image}" alt="${name}">
-    <div class="info">
-      <div class="price">₹ ${price}</div>
-      <div class="details">${name} <br> ${details}</div>
-    </div>
-  `;
-
-  
-  const img = product.querySelector('img');
-  img.addEventListener('click', () => {
-    modalImg.src = img.src;
-    imageModal.style.display = 'flex';
-  });
-
-  
-  productGrid.appendChild(product);
-
-  
-  sellForm.reset();
-  sellModal.style.display = 'none';
-});
-
-
+    sellBtn.addEventListener('click', () => sellModal.style.display = 'flex');
+    closeSellModal.addEventListener('click', () => sellModal.style.display = 'none');
     
-  
-
- const loginLink = document.querySelector('.actions a');
-loginLink.addEventListener('click', function(e){
-  e.preventDefault();
-  window.location.href = 'login.html';
-});
-
- 
-
-  const sortSelect = document.getElementById('sort');
-sortSelect.addEventListener('change', function(){
-  let productsArray = Array.from(document.querySelectorAll('.product'));
-  if(this.value === 'priceLow'){
-    productsArray.sort((a,b) => parseInt(a.querySelector('.price').innerText.replace(/[^0-9]/g,'')) - parseInt(b.querySelector('.price').innerText.replace(/[^0-9]/g,'')));
-  } else {
-    productsArray.sort((a,b) => parseInt(b.querySelector('.price').innerText.replace(/[^0-9]/g,'')) - parseInt(a.querySelector('.price').innerText.replace(/[^0-9]/g,'')));
-  }
-  const grid = document.querySelector('.product-grid');
-  productsArray.forEach(p => grid.appendChild(p));
-});
-
-
-const categoryLinks = document.querySelectorAll('.categories a');
-const productsAll = document.querySelectorAll('.product');
-
-categoryLinks.forEach(link => {
-  link.addEventListener('click', function(e){
-    e.preventDefault();
-
-    
-    categoryLinks.forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
-
-    const category = link.textContent.toLowerCase().replace(/\s+/g,'');
-
-    productsAll.forEach(product => {
-      if(category === 'all' || product.dataset.category.toLowerCase() === category) {
-        product.style.display = 'block';
-      } else {
-        product.style.display = 'none';
-      }
+    sellForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const product = {
+            id: productIdCounter++,
+            name: document.getElementById('itemName').value,
+            category: document.getElementById('itemcategory').value.toLowerCase(),
+            price: parseFloat(document.getElementById('itemPrice').value),
+            details: document.getElementById('itemDetails').value,
+            image: document.getElementById('itemImage').value,
+            location: document.getElementById('itemLocation').value
+        };
+        allProducts.push(product);
+        let saved = JSON.parse(localStorage.getItem('products')) || [];
+        saved.push(product);
+        localStorage.setItem('products', JSON.stringify(saved));
+        filterAndSortProducts();
+        sellModal.style.display = 'none';
+        sellForm.reset();
     });
-  });
-});
 
+    selectLocation.addEventListener('change', filterAndSortProducts);
+    sortSelect.addEventListener('change', filterAndSortProducts);
+    searchInput.addEventListener('input', (e) => {
+        currentSearchTerm = e.target.value.toLowerCase();
+        filterAndSortProducts();
+    });
 
-   
-    categoryLinks.forEach(l => l.style.color = '#333');
-    link.style.color = '#007bff';
-  
-//click on image
-const imageModal = document.getElementById('imageModal');
-const modalImg = document.getElementById('modalImg');
-const closeModal = document.getElementById('closeModal');
-
-Products.forEach(product => {
-  const img = product.querySelector('img');
-  img.addEventListener('click', () => {
-    modalImg.src = img.src;
-    imageModal.style.display = 'flex';
-  });
-});
-
-closeModal.addEventListener('click', () => {
-  imageModal.style.display = 'none';
-});
-
-imageModal.addEventListener('click', (e) => {
-  if (e.target === imageModal) imageModal.style.display = 'none';
-});
-
-
-
-
-
+    document.addEventListener('DOMContentLoaded', loadProducts);
 </script>
